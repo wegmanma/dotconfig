@@ -77,7 +77,7 @@ return {
     -- Enable telescope fzf native, if installed
     pcall(require("telescope").load_extension, "fzf")
     pcall(require("telescope").load_extension, "ui-select")
-
+    pcall(require("telescope").load_extension, "make")
     vim.keymap.set("n", "<leader>?", builtin.oldfiles, { desc = "[?] Find recently opened files" })
     vim.keymap.set("n", "<leader>sb", builtin.buffers, { desc = "[S]earch existing [B]uffers" })
     vim.keymap.set("n", "<leader>sm", builtin.marks, { desc = "[S]earch [M]arks" })
@@ -113,4 +113,3 @@ return {
     end, { desc = "[/] Fuzzily search in current buffer" })
   end,
 }
-
