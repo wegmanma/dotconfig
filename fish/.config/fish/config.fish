@@ -1,7 +1,7 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
     alias ls="eza --icons=always"
-    source /home/marcel/.config/fish/kanagawa-paper.fish
+    source ~/.config/fish/kanagawa-paper.fish
 end
 
 if status is-interactive
