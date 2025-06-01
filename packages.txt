@@ -80,7 +80,6 @@ pam-u2f
 pamixer
 paprefs
 paru
-paru-debug
 pavucontrol
 picom
 podman
@@ -115,7 +114,6 @@ stow
 sudo
 terminology
 testdisk
-texlive-latex
 thunar
 tk
 tmatrix
