@@ -276,7 +276,7 @@ mode "$mode_gaps_outer" {
 
 exec_always --no-startup-id polybar
 exec_always --no-startup-id feh --bg-fill ~/Pictures/inari.jpg
-exec_always --no-startup-id picom --config /home/wegr/.config/picom/picom.conf &
+exec_always --no-startup-id picom --config /home/marcel/.config/picom/picom.conf &
 
 
 # hide/unhide i3status bar
