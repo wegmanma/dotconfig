@@ -122,3 +122,7 @@ vim.keymap.set("n", "<leader>sl", ":source .session.vim<CR>", { noremap = true, 
 -- terminal mode
 vim.keymap.set("t", "<Leader><Esc>", "<C-\\><C-N>", opts)
 vim.keymap.set("n", "<Leader>t", ":split | terminal<CR>")
+
+vim.keymap.set("n", "<leader>f", function()
+	vim.lsp.buf.format({async = true})
+end, {desc = "Format buffer"})
