@@ -19,11 +19,7 @@ vim.o.linebreak = true -- companion to wrap don't split words
 vim.o.scrolloff = 10 -- minimal number of screen lines to keep above and below the cursor
 vim.o.sidescrolloff = 8 -- minimal number of screen columns either side of cursor if wrap is `false`
 vim.o.relativenumber = true -- set relative numbered lines
-vim.o.numberwidth = 4 -- set number column width to 2 {default 4}
-vim.o.shiftwidth = 4 -- the number of spaces inserted for each indentation
-vim.o.tabstop = 8 -- insert n spaces for a tab
-vim.o.softtabstop = 8 -- Number of spaces that a tab counts for while performing editing operations
-vim.o.expandtab = true -- convert tabs to spaces
+vim.o.numberwidth = 3 -- set number column width to 2 {default 4}
 vim.o.cursorline = false -- highlight the current line
 vim.o.splitbelow = true -- force all horizontal splits to go below current window
 vim.o.splitright = true -- force all vertical splits to go to the right of current window
@@ -42,3 +38,29 @@ vim.opt.iskeyword:append("-") -- hyphenated words recognized by searches
 vim.opt.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.
 vim.opt.runtimepath:remove("/usr/share/vim/vimfiles") -- separate vim plugins from neovim in case vim still in use
 -- vim.g.rustfmt_autosave = 1                            -- enable RustFMT at saving
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "c", "cpp", "go", "make", "cmake", "sh", "bash"  -- use tabs
+  },
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+	vim.g.rustfmt_autosave = 0
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "python", "rust", "lua", "yaml", "json", "typst"  -- use spaces
+  },
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+	vim.g.rustfmt_autosave = 1
+  end,
+})
