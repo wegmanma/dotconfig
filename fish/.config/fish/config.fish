@@ -3,6 +3,7 @@ if status is-interactive
     alias ls="eza --icons=always"
     alias ll="eza -llag --icons=always"
     alias snvim='sudo -E nvim'
+    alias cg='cd $(git root)'
     source ~/.config/fish/kanagawa-paper.fish
 end
 
