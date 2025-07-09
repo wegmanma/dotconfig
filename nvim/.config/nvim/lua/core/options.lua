@@ -39,28 +39,3 @@ vim.opt.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comm
 vim.opt.runtimepath:remove("/usr/share/vim/vimfiles") -- separate vim plugins from neovim in case vim still in use
 -- vim.g.rustfmt_autosave = 1                            -- enable RustFMT at saving
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = {
-    "c", "cpp", "go", "make", "cmake", "sh", "bash"  -- use tabs
-  },
-  callback = function()
-    vim.opt_local.expandtab = false
-    vim.opt_local.tabstop = 4
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.softtabstop = 4
-	vim.g.rustfmt_autosave = 0
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = {
-    "python", "rust", "lua", "yaml", "json", "typst"  -- use spaces
-  },
-  callback = function()
-    vim.opt_local.expandtab = true
-    vim.opt_local.tabstop = 4
-    vim.opt_local.shiftwidth = 4
-    vim.opt_local.softtabstop = 4
-	vim.g.rustfmt_autosave = 1
-  end,
-})

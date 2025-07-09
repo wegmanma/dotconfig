@@ -87,5 +87,17 @@ if file_exists(session_file) then
   vim.cmd("source " .. session_file)
 end
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {
+    "c", "cpp", "h", "hpp", "go", "make", "cmake", "sh" -- use tabs
+  },
+  callback = function()
+    vim.opt_local.expandtab = false
+    vim.opt_local.tabstop = 4
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.softtabstop = 4
+	vim.g.rustfmt_autosave = 0
+  end,
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
