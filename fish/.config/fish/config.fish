@@ -9,3 +9,8 @@ and not set -q TMUX
     exec tmux
 end
 
+
+# Added by LM Studio CLI (lms)
+set -gx PATH $PATH /home/marcel/.lmstudio/bin
+# End of LM Studio CLI section
+
