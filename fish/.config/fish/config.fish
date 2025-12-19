@@ -1,4 +1,6 @@
 if status is-interactive
+ # Add to PATH
+    set -Ux fish_user_paths $HOME/bin $fish_user_paths
     # Commands to run in interactive sessions can go here
     alias ls="eza --icons=always"
     alias ll="eza -llag --icons=always"

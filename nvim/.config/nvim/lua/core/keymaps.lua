@@ -123,6 +123,13 @@ vim.keymap.set("n", "<leader>sl", ":source .session.vim<CR>", { noremap = true, 
 vim.keymap.set("t", "<Leader><Esc>", "<C-\\><C-N>", opts)
 vim.keymap.set("n", "<Leader>t", ":split | terminal<CR>")
 
+-- Home: Anfang der Zeile
+vim.keymap.set({"i"}, "<Find>", "<C-o>^", { noremap = true })
+vim.keymap.set({"v", "n"}, "<Find>", "^", { noremap = true })
+-- End: Ende der Zeile
+vim.keymap.set({"i", "n"}, "<Select>", "<C-o>$", { noremap = true })
+vim.keymap.set({"v", "n"}, "<Select>", "$", { noremap = true })
+
 vim.keymap.set("n", "<leader>f", function()
 	vim.lsp.buf.format({async = true})
 end, {desc = "Format buffer"})

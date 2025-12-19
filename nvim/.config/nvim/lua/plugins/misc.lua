@@ -20,10 +20,10 @@ return {
 		-- GitHub integration for vim-fugitive
 		"tpope/vim-rhubarb",
 	},
-	{
-		--cmake integration
-		"Civitasv/cmake-tools.nvim",
-	},
+	--{
+	--	--cmake integration
+	--	"Civitasv/cmake-tools.nvim",
+	--},
 	{
 		-- disassembly
 		"mdedonno1337/disassemble.nvim",
