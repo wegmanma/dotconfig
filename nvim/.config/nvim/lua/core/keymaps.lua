@@ -131,5 +131,15 @@ vim.keymap.set({"i", "n"}, "<Select>", "<C-o>$", { noremap = true })
 vim.keymap.set({"v", "n"}, "<Select>", "$", { noremap = true })
 
 vim.keymap.set("n", "<leader>f", function()
-	vim.lsp.buf.format({async = true})
-end, {desc = "Format buffer"})
+  -- 1) clangd / LSP formatter (synchron!)
+  vim.lsp.buf.format({
+    async = false,
+    -- optional: nur clangd benutzen
+    -- filter = function(client) return client.name == "clangd" end,
+  })
+
+  -- 2) danach control-statement parens padden (nur C/C++)
+  pcall(function()
+    require("plugins.pad_control_parens").run(0)
+  end)
+end, { desc = "Format buffer (+ pad control parens)" })

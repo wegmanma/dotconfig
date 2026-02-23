@@ -24,6 +24,7 @@ font pango:DejaVu Sans Mono 8
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id setxkbmap -layout ch -variant de
 exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id ~/.screenlayout/three_monitor.sh
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
@@ -276,8 +277,7 @@ mode "$mode_gaps_outer" {
 # Polybar launch script (located ~/.config/polybar/launch.sh) 
 
 exec_always --no-startup-id polybar
-exec_always --no-startup-id feh --bg-fill ~/Pictures/inari.jpg
-exec_always --no-startup-id picom --config /home/marcel/.config/picom/picom.conf &
+exec_always --no-startup-id exec_always --no-startup-id picom --config /home/marcel/.config/picom/picom.conf &
 
 
 # hide/unhide i3status bar

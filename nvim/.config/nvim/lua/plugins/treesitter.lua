@@ -90,5 +90,12 @@ return {
       vim.filetype.add { extension = { tfvars = 'terraform' } }
       vim.filetype.add { extension = { pipeline = 'groovy' } }
       vim.filetype.add { extension = { multibranch = 'groovy' } }
+          -- Pad spaces inside control-statement parentheses: if/while/for/switch
+      vim.api.nvim_create_user_command('PadControlParens', function()
+        require('plugins.pad_control_parens').run(0)
+      end, {})
+
+      vim.keymap.set('n', '<leader>p', '<cmd>PadControlParens<CR>', { desc = 'Pad control parens' })
+
     end,
   }
