@@ -34,6 +34,30 @@ local function add_edits_for_parens(bufnr, node, edits)
 	return did
 end
 
+local function add_edits_around_value_parens(bufnr, value_node, edits)
+	local sr, sc, er, ec = value_node:range()
+
+	-- '(' is expected right before value start
+	local open_col = sc - 1
+	if open_col >= 0 and get_char(bufnr, sr, open_col) == "(" then
+		local nextc = get_char(bufnr, sr, sc)
+		if nextc ~= "" and not nextc:match("%s") then
+			table.insert(edits, { row = sr, col = sc, text = " " }) -- after '('
+		end
+	end
+
+	-- ')' is expected right after value end
+	local close_col = ec
+	if get_char(bufnr, er, close_col) == ")" then
+		local prevc = (ec > 0) and get_char(bufnr, er, ec - 1) or ""
+		if prevc ~= "" and not prevc:match("%s") then
+			table.insert(edits, { row = er, col = ec, text = " " }) -- before ')'
+		end
+	end
+
+	return true
+end
+
 local function is_ws(ch)
 	return ch ~= nil and ch ~= "" and ch:match("%s") ~= nil
 end
@@ -106,19 +130,39 @@ function M.run(bufnr)
 		if t == "if_statement" or t == "while_statement" then
 			stmt_count = stmt_count + 1
 			local cond = node:field("condition")[1]
-			if cond and cond:type() == "parenthesized_expression" then
-				paren_count = paren_count + 1
-				if add_edits_for_parens(bufnr, cond, edits) then
-					match_count = match_count + 1
+			if cond then
+				if cond:type() == "parenthesized_expression" then
+					paren_count = paren_count + 1
+					if add_edits_for_parens(bufnr, cond, edits) then
+						match_count = match_count + 1
+					end
+				elseif cond:type() == "condition_clause" then
+					local v = cond:field("value")[1]
+					if v then
+						paren_count = paren_count + 1
+						if add_edits_around_value_parens(bufnr, v, edits) then
+							match_count = match_count + 1
+						end
+					end
 				end
 			end
 		elseif t == "switch_statement" then
 			stmt_count = stmt_count + 1
 			local cond = node:field("condition")[1]
-			if cond and cond:type() == "parenthesized_expression" then
-				paren_count = paren_count + 1
-				if add_edits_for_parens(bufnr, cond, edits) then
-					match_count = match_count + 1
+			if cond then
+				if cond:type() == "parenthesized_expression" then
+					paren_count = paren_count + 1
+					if add_edits_for_parens(bufnr, cond, edits) then
+						match_count = match_count + 1
+					end
+				elseif cond:type() == "condition_clause" then
+					local v = cond:field("value")[1]
+					if v then
+						paren_count = paren_count + 1
+						if add_edits_around_value_parens(bufnr, v, edits) then
+							match_count = match_count + 1
+						end
+					end
 				end
 			end
 		elseif t == "for_statement" then
