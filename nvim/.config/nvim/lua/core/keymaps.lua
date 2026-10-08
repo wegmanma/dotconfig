@@ -78,13 +78,16 @@ vim.keymap.set("n", "<leader>lw", "<cmd>set wrap!<CR>", opts)
 vim.keymap.set("i", "jk", "<ESC>", opts)
 vim.keymap.set("i", "kj", "<ESC>", opts)
 
+-- Visual mode: delete without changing registers or clipboard
+vim.keymap.set("x", "x", '"_d', opts)
+
 -- Stay in indent mode
 vim.keymap.set("v", "<", "<gv", opts)
 vim.keymap.set("v", ">", ">gv", opts)
 
 -- Move text up and down
-vim.keymap.set("v", "<A-j>", ":m .+1<CR>==", opts)
-vim.keymap.set("v", "<A-k>", ":m .-2<CR>==", opts)
+vim.keymap.set("x", "<A-j>", ":m '>+1<CR>gv=gv", opts)
+vim.keymap.set("x", "<A-k>", ":m '<-2<CR>gv=gv", opts)
 
 -- Keep last yanked when pasting
 vim.keymap.set("v", "p", '"_dP', opts)
@@ -96,22 +99,19 @@ vim.keymap.set("n", "<leader>j", "*``cgn", opts)
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
--- Toggle diagnostics
-local diagnostics_active = true
-
 vim.keymap.set("n", "<leader>do", function()
-	diagnostics_active = not diagnostics_active
+	local filter = { bufnr = 0 }
+	vim.diagnostic.enable(not vim.diagnostic.is_enabled(filter), filter)
+end, { desc = "Toggle buffer diagnostics" })
 
-	if diagnostics_active then
-		vim.diagnostic.enable(0)
-	else
-		vim.diagnostic.disable(0)
-	end
-end)
+vim.keymap.set("n", "[d", function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Previous diagnostic" })
 
--- Diagnostic keymaps
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+vim.keymap.set("n", "]d", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Next diagnostic" })
+
 vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
@@ -124,22 +124,26 @@ vim.keymap.set("t", "<Leader><Esc>", "<C-\\><C-N>", opts)
 vim.keymap.set("n", "<Leader>t", ":split | terminal<CR>")
 
 -- Home: Anfang der Zeile
-vim.keymap.set({"i"}, "<Find>", "<C-o>^", { noremap = true })
-vim.keymap.set({"v", "n"}, "<Find>", "^", { noremap = true })
+vim.keymap.set({ "i" }, "<Find>", "<C-o>^", { noremap = true })
+vim.keymap.set({ "v", "n" }, "<Find>", "^", { noremap = true })
 -- End: Ende der Zeile
-vim.keymap.set({"i", "n"}, "<Select>", "<C-o>$", { noremap = true })
-vim.keymap.set({"v", "n"}, "<Select>", "$", { noremap = true })
+vim.keymap.set({ "i", "n" }, "<Select>", "<C-o>$", { noremap = true })
+vim.keymap.set({ "v", "n" }, "<Select>", "$", { noremap = true })
 
 vim.keymap.set("n", "<leader>f", function()
-  -- 1) clangd / LSP formatter (synchron!)
-  vim.lsp.buf.format({
-    async = false,
-    -- optional: nur clangd benutzen
-    -- filter = function(client) return client.name == "clangd" end,
-  })
+	vim.lsp.buf.format({ async = false })
+end)
 
-  -- 2) danach control-statement parens padden (nur C/C++)
-  pcall(function()
-    require("plugins.pad_control_parens").run(0)
-  end)
-end, { desc = "Format buffer (+ pad control parens)" })
+--vim.keymap.set("n", "<leader>f", function()
+--  -- 1) clangd / LSP formatter (synchron!)
+--  vim.lsp.buf.format({
+--    async = false,
+--    -- optional: nur clangd benutzen
+--    -- filter = function(client) return client.name == "clangd" end,
+--  })
+--
+--  -- 2) danach control-statement parens padden (nur C/C++)
+--  pcall(function()
+--    require("plugins.pad_control_parens").run(0)
+--  end)
+--end, { desc = "Format buffer (+ pad control parens)" })

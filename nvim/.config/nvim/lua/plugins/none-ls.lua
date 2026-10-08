@@ -19,7 +19,6 @@ return {
 				"stylua", -- lua formatter
 				"ruff",
 				"rust_hdl",
-				"clangd",
 			},
 			-- auto-install configured formatters & linters (with null-ls)
 			automatic_installation = true,
@@ -32,7 +31,7 @@ return {
 				extra_filetypes = { "toml" },
 			}),
 			formatting.stylua,
-			formatting.shfmt.with({ args = { "-i", "4" } }),
+			formatting.shfmt.with({ args = { "-i", "0" } }),
 			formatting.terraform_fmt,
 			require("none-ls.formatting.ruff").with({ extra_args = { "--extend-select", "I" } }),
 			require("none-ls.formatting.ruff_format"),

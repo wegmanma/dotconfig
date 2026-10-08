@@ -1,13 +1,22 @@
-;; Kanata config for caps to escape and ctrl
-
 (defsrc
-  caps
+  caps calc
 )
 
 (defalias
+  0 0
+  1 1
+  2 2
+  3 3
+  4 4
+  5 5
+  6 6
+  7 7
+  8 8
+  9 9
   escctrl (tap-hold 200 200 esc lctrl)
+  bonk   (macro S-f S-b @5 @3 S-n @3 @3 S-d x @3 S-u h)
 )
 
 (deflayer base
- @escctrl
+  @escctrl @bonk
 )

@@ -65,7 +65,7 @@ require("lazy").setup({
     },
   },
 })
-vim.opt.guifont = "CaskaydiaCove NFM"
+-- vim.opt.guifont = "CaskaydiaCove NFM"
 
 -- Function to check if a file exists
 local function file_exists(file)
@@ -97,6 +97,15 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.shiftwidth = 8
     vim.opt_local.softtabstop = 0
 	vim.g.rustfmt_autosave = 1
+  end,
+})
+
+vim.api.nvim_set_hl(0, "ExtraWhitespace", { bg = "red" })
+
+vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
+  pattern = "*",
+  callback = function()
+    vim.fn.matchadd("ExtraWhitespace", [[\s\+$]])
   end,
 })
 -- The line beneath this is called `modeline`. See `:help modeline`

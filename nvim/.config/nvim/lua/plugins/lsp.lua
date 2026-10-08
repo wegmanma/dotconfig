@@ -107,6 +107,13 @@ return { -- LSP Configuration & Plugins
 
 		-- Enable the following language servers
 		local servers = {
+			clangd = {
+				cmd = {
+					"clangd",
+					"--clang-tidy",
+					"--query-driver=/home/marcel/gitlab/*/output/host/bin/*-gcc,/home/marcel/gitlab/*/output/host/bin/*-g++,/home/marcel/gitlab/*/buildroot/output/host/usr/bin/*-gcc,/home/marcel/gitlab/*/buildroot/output/host/usr/bin/*-g++",
+				},
+			},
 
 			lua_ls = {
 				-- cmd = {...},
@@ -194,17 +201,15 @@ return { -- LSP Configuration & Plugins
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+		for server_name, server in pairs(servers) do
+			server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+
+			vim.lsp.config(server_name, server)
+		end
+
 		require("mason-lspconfig").setup({
-			handlers = {
-				function(server_name)
-					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for tsserver)
-					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-					require("lspconfig")[server_name].setup(server)
-				end,
-			},
+			ensure_installed = vim.tbl_keys(servers),
+			automatic_enable = true,
 		})
 	end,
 }

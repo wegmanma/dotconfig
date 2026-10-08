@@ -25,6 +25,10 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id setxkbmap -layout ch -variant de
 exec --no-startup-id xrdb -merge ~/.Xresources
 exec --no-startup-id ~/.screenlayout/three_monitor.sh
+
+exec --no-startup-id systemctl --user import-environment DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
+exec --no-startup-id dbus-update-activation-environment --systemd DISPLAY XAUTHORITY XDG_CURRENT_DESKTOP
+exec --no-startup-id sh -c 'sleep 2 && systemctl --user reset-failed xdg-desktop-portal-gtk && systemctl --user restart xdg-desktop-portal xdg-desktop-portal-gtk'
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
 
